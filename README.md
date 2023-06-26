@@ -1,6 +1,7 @@
 # Azura Fashion Website
 
 Welcome to the repository for Azura Fashion Website, a stylish and modern online platform developed using Next.js, JavaScript, HTML, Tailwind CSS, and React. This website showcases the latest fashion trends, products, and collections offered by Azura, providing an immersive and enjoyable shopping experience for fashion enthusiasts.
+The Azura fashion website can be accessed at the following URL: [https://fashion.verixr.com/](https://fashion.verixr.com/).
 
 ## Features
 

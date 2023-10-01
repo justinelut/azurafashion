@@ -21,13 +21,13 @@ const Login = ({
 
   const onSubmit = async (data, e) => {
     e.preventDefault()
-      const {response, error} = await login(
-        data.username,
-        data.password,
-      );
-     if(error){
-       setPasswordEmailError("Email or password entered is incorrect")
-     }
+    const { response, error } = await login(
+      data.username,
+      data.password,
+    );
+    if (error) {
+      setPasswordEmailError("Email or password entered is incorrect")
+    }
   };
 
   return (

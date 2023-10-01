@@ -8,6 +8,7 @@ import GhostButton from "@/components/Buttons/GhostButton";
 import { useRouter } from "next/navigation";
 import { pb } from "@/app/pocketbase";
 import { imageurl } from "@/components/Util/getimage";
+import LoadingCard from "@/components/Card/Loading";
 
 export default function SearchForm() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function SearchForm() {
     if (!isFetching) return;
     const fetchData = async () => {
       const res = await pb.collection('fashion_products').getList(1, 50, {
-        filter: `name ~ "${searchValue}"`, '$autoCancel': false 
+        filter: `name ~ "${searchValue}"`, '$autoCancel': false
       });
 
       const fetchedProducts = res.items.map(
@@ -144,7 +145,7 @@ export default function SearchForm() {
                   </div>
                   {noResult ? (
                     <div className="flex justify-center mt-8">
-                      <span>{"no_result"}</span>
+                      <span>No results found</span>
                     </div>
                   ) : (
                     <div className="text-center">
@@ -155,18 +156,26 @@ export default function SearchForm() {
                             "repeat( auto-fit, minmax(120px, 170px) )",
                         }}
                       >
-                        {searchItems.map((product) => (
-                          <Card
-                            key={product.id}
-                            id={product.id}
-                            price={product.price}
-                            collectionId={product.collectionId}
-                            name={product.name}
-                            featuredimage={imageurl(product.collectionId, product.id, product.featuredimage)}
-                            otherimages={imageurl(product.collectionId, product.id, product.otherimages[0])}
-                            qty={product.qty}
-                          />
-                        ))}
+                        {isFetching ? (
+                          Array.from({ length: 4 }, (_, i) => i + 1).map((id) => (
+                            <div className="mr-2">
+                            <LoadingCard />
+                            </div>
+                          ))
+                        ) : (
+                          searchItems.map((product) => (
+                            <Card
+                              key={product.id}
+                              id={product.id}
+                              price={product.price}
+                              collectionId={product.collectionId}
+                              name={product.name}
+                              featuredimage={imageurl(product.collectionId, product.id, product.featuredimage)}
+                              otherimages={imageurl(product.collectionId, product.id, product.otherimages[0])}
+                              qty={product.qty}
+                            />
+                          ))
+                        )}
                       </div>
                       {moreThanFour && (
                         <GhostButton

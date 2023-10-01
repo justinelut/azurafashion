@@ -88,7 +88,7 @@ export function PocketProvider({ children }) {
         pb.authStore.clear();
         document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
         pb.authStore.exportToCookie({ httpOnly: false })
-        router.refresh()
+        window.location.href = '/'
     }, [pb]);
 
     const value = {

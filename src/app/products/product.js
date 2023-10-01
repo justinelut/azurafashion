@@ -73,7 +73,6 @@ const Product = ({ product, products }) => {
                         <Link href='/' className='text-gray400'>
                             Home
                         </Link>{' '}
-                        /{' '}
                         <Link href={`/product-category/${product.categoryName}`} className="text-gray400 capitalize">
                             {product.categoryName}
                         </Link>{' '}
@@ -181,7 +180,7 @@ const Product = ({ product, products }) => {
                     </div>
 
                     <span className='mb-2'>
-                        {'Size'}: {size}
+                        {'Colors'}: {size}
                     </span>
                     <div className='sizeContainer flex space-x-4 text-sm mb-4'>
                         <div

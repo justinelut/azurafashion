@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import TopNav from "@/components/Header/TopNav/page";
 import WhistlistIcon from "/public/icons/WhistlistIcon";
-
 import UserIcon from "/public/icons/UserIcon";
 import AuthForm from "@/components/Auth/AuthForm";
 import SearchForm from "@/components/SearchForm/SearchForm";
@@ -14,6 +13,7 @@ import styles from "./Header.module.css";
 import { useWishListStore } from "@/context/wishlist/wishlisttore";
 import { pb } from "@/app/pocketbase";
 import Accountdetails from "@/components/Auth/Accountdetails";
+import { ToggleTheme } from "@/components/Header/themeswitcher";
 
 
 
@@ -164,7 +164,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <CartItem/>
+              <CartItem />
             </li>
           </ul>
         </div>

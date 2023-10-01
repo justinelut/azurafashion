@@ -13,9 +13,12 @@ export async function middleware(req) {
             response?.headers.set('pb_auth', req.cookies.get('pb_auth').value);
         });
     }
-    if (pb.authStore && !pb.authStore.isValid) {
+     
+    if (pb.authStore && !pb.authStore.isValid && req.nextUrl.pathname.startsWith("/dashboard")) {
         pb.authStore.clear()
+        return NextResponse.redirect(
+            new URL(`?${new URLSearchParams({ error: "/dashboard" })}`, req.url)
+        );
     }
-
     return response;
 }

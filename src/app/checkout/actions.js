@@ -1,5 +1,5 @@
 'use server'
-import stkpush from "@/app/checkout/mpesa";
+import MpesaPay from 'mpesapay';
 import { revalidatePath } from "next/cache";
 import { cookies } from 'next/headers';
 import { getPocketBaseFromAuthCookie } from "@/app/pocketbaseserver";
@@ -25,26 +25,29 @@ function generateUniqueReferenceNumber(prefix, length) {
 const referenceNumber = generateUniqueReferenceNumber('PL', 10);
 
 export async function mpesapay(data) {
-    const mpesa = stkpush(
+    const mpesaPay = new MpesaPay(
         process.env.NEXT_PUBLIC_MPESA_CONSUMER_KEY,
         process.env.NEXT_PUBLIC_MPESA_CONSUMER_SECRET,
         process.env.NEXT_PUBLIC_MPESA_BUSINESS_SHORT_CODE,
         process.env.NEXT_PUBLIC_MPESA_PASS_KEY,
         referenceNumber,
+        'sandbox',
         "Pixelabs Inc"
     );
+
+
     const cookieStore = cookies();
     const authValue = cookieStore.get('pb_auth');
     const pbserver = getPocketBaseFromAuthCookie(authValue)
      const url = `https://fashion.verixr.com/checkout/payment?userid=${pbserver?.authStore?.model?.id}&collid=${pbserver?.authStore?.model?.collectionId}`;
     if (pbserver && pbserver?.authStore?.isValid) {
-        const results = await mpesa.pay(data.amount, data.phonenumber, url).catch(err => {
+        const results = await mpesaPay.stkPush(data.amount, data.phonenumber, url).catch(err => {
             if (err) {
                 throw new APIError({ msg: "Payment was not initiated" });
             }
         })
         revalidatePath("/checkout")
-        if (results.ResponseCode == 0) {
+        if (results && results.ResponseCode == 0) {
             return { message: "Please check your phone to complete payment" }
         } else {
             return { error: "An error occured, please try again later!" }
